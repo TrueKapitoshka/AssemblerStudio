@@ -14,6 +14,8 @@
 #include <QStatusBar>
 #include <QGroupBox>
 #include <QSizePolicy>
+#include <QFileDialog>
+#include <QMessageBox>
 
 
 class MainWindow : public QMainWindow
@@ -31,6 +33,7 @@ public:
   ~MainWindow();
 public slots:
 void newFile();
+void openFile();
 void tabsCloseReqest(int);
 };
 

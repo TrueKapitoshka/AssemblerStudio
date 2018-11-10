@@ -32,12 +32,13 @@ void MainWindow::createActions(){
   actionOpenFile->setShortcut(QKeySequence::New);
   actionOpenFile->setStatusTip(tr("Open exist file"));
   menyFile->addAction(actionOpenFile);
+  connect(actionOpenFile,SIGNAL(triggered()),this,SLOT(openFile()));
 }
 
 void MainWindow::createStatusBar()
 {
-    QStatusBar *statusBar = new QStatusBar();
-    this->setStatusBar(statusBar);
+  QStatusBar *statusBar = new QStatusBar();
+  this->setStatusBar(statusBar);
 }
 
 void MainWindow::readSettings(){
@@ -57,7 +58,7 @@ void MainWindow::createCentralBox(){
   QTextEdit *textEdit = new QTextEdit();
   mainTabs->addTab(textEdit,tr("new"));
   QSizePolicy spMainTabs(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  spMainTabs.setHorizontalStretch(2);
+  spMainTabs.setHorizontalStretch(3);
   mainTabs->setSizePolicy(spMainTabs);
 
   QHBoxLayout *boxLayaut = new QHBoxLayout();
@@ -74,4 +75,22 @@ void MainWindow::createCentralBox(){
 
 void MainWindow::tabsCloseReqest(int tabIndex){
   mainTabs->removeTab(tabIndex);
+}
+
+void MainWindow::openFile(){
+  QString fileName = QFileDialog::getOpenFileName(this,
+                                                  tr("Save Address Book"), "",
+                                                  tr("Assembler files (*.asm);;All Files (*)"));
+  if (fileName.isEmpty()){
+      return;
+    }
+  else {
+      QFile file(fileName);
+      if (!file.open(QIODevice::ReadOnly)) {
+          QMessageBox::information(this, tr("Unable to open file"),
+                                   file.errorString());
+          return;
+        }
+    }
+  QDataStream &inFileStream();
 }
